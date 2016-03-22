@@ -83,7 +83,7 @@ MoveitStateAdapter::MoveitStateAdapter(const moveit::core::RobotState & robot_st
     // Find the velocity limits
     if (!getJointVelocityLimits(*robot_state_, group_name, velocity_limits_))
     {
-      logWarn("Could not determine velocity limits of RobotModel from MoveIt");
+      ROS_WARN_NAMED("moveit_state_adapter", "Could not determine velocity limits of RobotModel from MoveIt");
     }
 
     joint_model_group_ptr->printGroupInfo();
@@ -91,13 +91,13 @@ MoveitStateAdapter::MoveitStateAdapter(const moveit::core::RobotState & robot_st
     const std::vector<std::string>& link_names = joint_model_group_ptr->getLinkModelNames();
     if (tool_frame_ != link_names.back())
     {
-      logWarn("Tool frame '%s' does not match group tool frame '%s', functionality will be implemented in the future",
+      ROS_WARN_NAMED("moveit_state_adapter", "Tool frame '%s' does not match group tool frame '%s', functionality will be implemented in the future",
                tool_frame_.c_str(), link_names.back().c_str());
     }
 
     if (world_frame_ != robot_state_->getRobotModel()->getModelFrame())
     {
-      logWarn("World frame '%s' does not match model root frame '%s', all poses will be transformed to world frame '%s'",
+      ROS_WARN_NAMED("moveit_state_adapter", "World frame '%s' does not match model root frame '%s', all poses will be transformed to world frame '%s'",
                world_frame_.c_str(), link_names.front().c_str(),world_frame_.c_str());
 
       Eigen::Affine3d root_to_world = robot_state_->getFrameTransform(world_frame_);
@@ -136,7 +136,7 @@ bool MoveitStateAdapter::initialize(const std::string& robot_description, const 
   // Find the velocity limits
   if (!getJointVelocityLimits(*robot_state_, group_name, velocity_limits_))
   {
-    logWarn("Could not determine velocity limits of RobotModel from MoveIt");
+    ROS_WARN_NAMED("moveit_state_adapter", "Could not determine velocity limits of RobotModel from MoveIt");
   }
 
   const moveit::core::JointModelGroup* joint_model_group_ptr = robot_state_->getJointModelGroup(group_name);
@@ -147,14 +147,16 @@ bool MoveitStateAdapter::initialize(const std::string& robot_description, const 
     const std::vector<std::string>& link_names = joint_model_group_ptr->getLinkModelNames();
     if (tool_frame_ != link_names.back())
     {
-      logWarn("Tool frame '%s' does not match group tool frame '%s', functionality will be implemented in the future",
+      ROS_WARN_NAMED("moveit_state_adapter", "Tool frame '%s' does not match group tool frame '%s', functionality will be implemented in the future",
                tool_frame_.c_str(), link_names.back().c_str());
     }
 
     if (world_frame_ != robot_state_->getRobotModel()->getModelFrame())
     {
-      logWarn("World frame '%s' does not match model root frame '%s', all poses will be transformed to world frame '%s'",
-               world_frame_.c_str(), robot_state_->getRobotModel()->getModelFrame().c_str(),world_frame_.c_str());
+      ROS_WARN_NAMED("moveit_state_adapter", "World frame '%s' does not match moveit robot model root frame '%s', "
+                     " all poses will be transformed to world frame '%s'",
+                     world_frame_.c_str(), robot_state_->getRobotModel()->getModelFrame().c_str(),
+                     world_frame_.c_str());
 
       Eigen::Affine3d root_to_world = robot_state_->getFrameTransform(world_frame_);
       world_to_root_ = descartes_core::Frame(root_to_world.inverse());
@@ -365,7 +367,7 @@ int MoveitStateAdapter::getDOF() const
   return group->getVariableCount();
 }
 
-bool MoveitStateAdapter::isValidMove(const std::vector<double>& from_joint_pose, 
+bool MoveitStateAdapter::isValidMove(const std::vector<double>& from_joint_pose,
                                      const std::vector<double>& to_joint_pose,
                                      double dt) const
 {
@@ -379,7 +381,7 @@ bool MoveitStateAdapter::isValidMove(const std::vector<double>& from_joint_pose,
     return false;
   }
 
-  // Build a vector of the maximum angle delta per joint 
+  // Build a vector of the maximum angle delta per joint
   for (std::vector<double>::const_iterator it = velocity_limits_.begin(); it != velocity_limits_.end(); ++it)
   {
     max_joint_deltas.push_back((*it) * dt);
@@ -397,4 +399,3 @@ bool MoveitStateAdapter::isValidMove(const std::vector<double>& from_joint_pose,
 }
 
 } //descartes_moveit
-
