@@ -1,74 +1,74 @@
 /*********************************************************************
-* Software License Agreement (BSD License)
-*
-* Copyright (c) 2014, Georgia Tech
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*
-* * Redistributions of source code must retain the above copyright
-* notice, this list of conditions and the following disclaimer.
-* * Redistributions in binary form must reproduce the above
-* copyright notice, this list of conditions and the following
-* disclaimer in the documentation and/or other materials provided
-* with the distribution.
-* * Neither the name of Georgia Tech nor the names of its
-* contributors may be used to endorse or promote products derived
-* from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-* COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-* POSSIBILITY OF SUCH DAMAGE.
-*********************************************************************/
+ * Software License Agreement (BSD License)
+ *
+ * Copyright (c) 2014, Georgia Tech
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ * * Neither the name of Georgia Tech nor the names of its
+ * contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
 
 /* Author: Kelsey Hawkins */
 
 /* Based on orignal source from Willow Garage. License copied below */
 
 /*********************************************************************
-* Software License Agreement (BSD License)
-*
-* Copyright (c) 2012, Willow Garage, Inc.
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*
-* * Redistributions of source code must retain the above copyright
-* notice, this list of conditions and the following disclaimer.
-* * Redistributions in binary form must reproduce the above
-* copyright notice, this list of conditions and the following
-* disclaimer in the documentation and/or other materials provided
-* with the distribution.
-* * Neither the name of Willow Garage nor the names of its
-* contributors may be used to endorse or promote products derived
-* from this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-* COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-* POSSIBILITY OF SUCH DAMAGE.
-*********************************************************************/
+ * Software License Agreement (BSD License)
+ *
+ * Copyright (c) 2012, Willow Garage, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above
+ * copyright notice, this list of conditions and the following
+ * disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ * * Neither the name of Willow Garage nor the names of its
+ * contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *********************************************************************/
 
 /* Author: Sachin Chitta, David Lu!!, Ugo Cupcic */
 
@@ -91,7 +91,7 @@
 namespace ur_kinematics
 {
 
-  URKinematicsPlugin::URKinematicsPlugin():active_(false) {}
+URKinematicsPlugin::URKinematicsPlugin():active_(false) {}
 
 void URKinematicsPlugin::getRandomConfiguration(KDL::JntArray &jnt_array, bool lock_redundancy) const
 {
@@ -116,9 +116,9 @@ bool URKinematicsPlugin::isRedundantJoint(unsigned int index) const
 }
 
 void URKinematicsPlugin::getRandomConfiguration(const KDL::JntArray &seed_state,
-                                                 const std::vector<double> &consistency_limits,
-                                                 KDL::JntArray &jnt_array,
-                                                 bool lock_redundancy) const
+                                                const std::vector<double> &consistency_limits,
+                                                KDL::JntArray &jnt_array,
+                                                bool lock_redundancy) const
 {
   std::vector<double> values(dimension_, 0.0);
   std::vector<double> near(dimension_, 0.0);
@@ -135,7 +135,7 @@ void URKinematicsPlugin::getRandomConfiguration(const KDL::JntArray &seed_state,
   }
 
   joint_model_group_->getVariableRandomPositionsNearBy(state_->getRandomNumberGenerator(), values, near, consistency_limits_mimic);
-  
+
   for (std::size_t i = 0; i < dimension_; ++i)
   {
     bool skip = false;
@@ -153,8 +153,8 @@ void URKinematicsPlugin::getRandomConfiguration(const KDL::JntArray &seed_state,
 }
 
 bool URKinematicsPlugin::checkConsistency(const KDL::JntArray& seed_state,
-                                           const std::vector<double> &consistency_limits,
-                                           const KDL::JntArray& solution) const
+                                          const std::vector<double> &consistency_limits,
+                                          const KDL::JntArray& solution) const
 {
   for (std::size_t i = 0; i < dimension_; ++i)
     if (fabs(seed_state(i) - solution(i)) > consistency_limits[i])
@@ -163,10 +163,10 @@ bool URKinematicsPlugin::checkConsistency(const KDL::JntArray& seed_state,
 }
 
 bool URKinematicsPlugin::initialize(const std::string &robot_description,
-                                     const std::string& group_name,
-                                     const std::string& base_frame,
-                                     const std::string& tip_frame,
-                                     double search_discretization)
+                                    const std::string& group_name,
+                                    const std::string& base_frame,
+                                    const std::string& tip_frame,
+                                    double search_discretization)
 {
   setValues(robot_description, group_name, base_frame, tip_frame, search_discretization);
 
@@ -186,7 +186,7 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   robot_model::JointModelGroup* joint_model_group = robot_model_->getJointModelGroup(group_name);
   if (!joint_model_group)
     return false;
-  
+
   if(!joint_model_group->isChain())
   {
     ROS_ERROR_NAMED("kdl","Group '%s' is not a chain", group_name.c_str());
@@ -207,7 +207,7 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   }
   if (!kdl_tree.getChain(base_frame_, getTipFrame(), kdl_chain_))
   {
-    ROS_ERROR_NAMED("kdl","Could not initialize chain object");
+    ROS_ERROR_STREAM_NAMED("kdl","Could not initialize chain object from " << base_frame_ << " to " << getTipFrame());
     return false;
   }
 
@@ -251,8 +251,8 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   private_handle.param("epsilon", epsilon, 1e-5);
   private_handle.param(group_name+"/position_only_ik", position_ik, false);
   ROS_DEBUG_NAMED("kdl","Looking in private handle: %s for param name: %s",
-            private_handle.getNamespace().c_str(),
-            (group_name+"/position_only_ik").c_str());
+                  private_handle.getNamespace().c_str(),
+                  (group_name+"/position_only_ik").c_str());
 
   if(position_ik)
     ROS_INFO_NAMED("kdl","Using position only ik");
@@ -268,7 +268,7 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   for (std::size_t i = 0; i < kdl_chain_.getNrOfSegments(); ++i)
   {
     const robot_model::JointModel *jm = robot_model_->getJointModel(kdl_chain_.segments[i].getJoint().getName());
-    
+
     //first check whether it belongs to the set of active joints in the group
     if (jm->getMimic() == NULL && jm->getVariableCount() > 0)
     {
@@ -321,6 +321,8 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   epsilon_ = epsilon;
 
   private_handle.param<std::string>("arm_prefix", arm_prefix_, "");
+  if (arm_prefix_.empty())
+    ROS_WARN_STREAM_NAMED("ur_moveit_plugin", "arm_prefix is empty - namespace: " << private_handle.getNamespace());
 
   ur_joint_names_.push_back(arm_prefix_ + "shoulder_pan_joint");
   ur_joint_names_.push_back(arm_prefix_ + "shoulder_lift_joint");
@@ -346,15 +348,15 @@ bool URKinematicsPlugin::initialize(const std::string &robot_description,
   for(int i=1; i<6; i++) {
     cur_ur_joint_ind = getJointIndex(ur_joint_names_[i]);
     if(cur_ur_joint_ind < 0) {
-      ROS_ERROR_NAMED("kdl", 
-        "Kin chain provided in model doesn't contain standard UR joint '%s'.", 
-        ur_joint_names_[i].c_str());
+      ROS_ERROR_NAMED("kdl",
+                      "Kin chain provided in model doesn't contain standard UR joint '%s'.",
+                      ur_joint_names_[i].c_str());
       return false;
     }
     if(cur_ur_joint_ind != last_ur_joint_ind + 1) {
-      ROS_ERROR_NAMED("kdl", 
-        "Kin chain provided in model doesn't have proper serial joint order: '%s'.", 
-        ur_joint_names_[i].c_str());
+      ROS_ERROR_NAMED("kdl",
+                      "Kin chain provided in model doesn't have proper serial joint order: '%s'.",
+                      ur_joint_names_[i].c_str());
       return false;
     }
     last_ur_joint_ind = cur_ur_joint_ind;
@@ -404,7 +406,7 @@ bool URKinematicsPlugin::setRedundantJoints(const std::vector<unsigned int> &red
       if(i == redundant_joints[j])
       {
         is_redundant_joint = true;
-counter++;
+        counter++;
         break;
       }
     }
@@ -413,8 +415,8 @@ counter++;
       // check for mimic
       if(mimic_joints_[i].active)
       {
-redundant_joints_map_index.push_back(counter);
-counter++;
+        redundant_joints_map_index.push_back(counter);
+        counter++;
       }
     }
   }
@@ -453,10 +455,10 @@ bool URKinematicsPlugin::timedOut(const ros::WallTime &start_time, double durati
 }
 
 bool URKinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
-                                        const std::vector<double> &ik_seed_state,
-                                        std::vector<double> &solution,
-                                        moveit_msgs::MoveItErrorCodes &error_code,
-                                        const kinematics::KinematicsQueryOptions &options) const
+                                       const std::vector<double> &ik_seed_state,
+                                       std::vector<double> &solution,
+                                       moveit_msgs::MoveItErrorCodes &error_code,
+                                       const kinematics::KinematicsQueryOptions &options) const
 {
   const IKCallbackFn solution_callback = 0;
   std::vector<double> consistency_limits;
@@ -472,11 +474,11 @@ bool URKinematicsPlugin::getPositionIK(const geometry_msgs::Pose &ik_pose,
 }
 
 bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
-                                           const std::vector<double> &ik_seed_state,
-                                           double timeout,
-                                           std::vector<double> &solution,
-                                           moveit_msgs::MoveItErrorCodes &error_code,
-                                           const kinematics::KinematicsQueryOptions &options) const
+                                          const std::vector<double> &ik_seed_state,
+                                          double timeout,
+                                          std::vector<double> &solution,
+                                          moveit_msgs::MoveItErrorCodes &error_code,
+                                          const kinematics::KinematicsQueryOptions &options) const
 {
   const IKCallbackFn solution_callback = 0;
   std::vector<double> consistency_limits;
@@ -492,12 +494,12 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 }
 
 bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
-                                           const std::vector<double> &ik_seed_state,
-                                           double timeout,
-                                           const std::vector<double> &consistency_limits,
-                                           std::vector<double> &solution,
-                                           moveit_msgs::MoveItErrorCodes &error_code,
-                                           const kinematics::KinematicsQueryOptions &options) const
+                                          const std::vector<double> &ik_seed_state,
+                                          double timeout,
+                                          const std::vector<double> &consistency_limits,
+                                          std::vector<double> &solution,
+                                          moveit_msgs::MoveItErrorCodes &error_code,
+                                          const kinematics::KinematicsQueryOptions &options) const
 {
   const IKCallbackFn solution_callback = 0;
   return searchPositionIK(ik_pose,
@@ -511,12 +513,12 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 }
 
 bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
-                                           const std::vector<double> &ik_seed_state,
-                                           double timeout,
-                                           std::vector<double> &solution,
-                                           const IKCallbackFn &solution_callback,
-                                           moveit_msgs::MoveItErrorCodes &error_code,
-                                           const kinematics::KinematicsQueryOptions &options) const
+                                          const std::vector<double> &ik_seed_state,
+                                          double timeout,
+                                          std::vector<double> &solution,
+                                          const IKCallbackFn &solution_callback,
+                                          moveit_msgs::MoveItErrorCodes &error_code,
+                                          const kinematics::KinematicsQueryOptions &options) const
 {
   std::vector<double> consistency_limits;
   return searchPositionIK(ik_pose,
@@ -530,13 +532,13 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 }
 
 bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
-                                           const std::vector<double> &ik_seed_state,
-                                           double timeout,
-                                           const std::vector<double> &consistency_limits,
-                                           std::vector<double> &solution,
-                                           const IKCallbackFn &solution_callback,
-                                           moveit_msgs::MoveItErrorCodes &error_code,
-                                           const kinematics::KinematicsQueryOptions &options) const
+                                          const std::vector<double> &ik_seed_state,
+                                          double timeout,
+                                          const std::vector<double> &consistency_limits,
+                                          std::vector<double> &solution,
+                                          const IKCallbackFn &solution_callback,
+                                          moveit_msgs::MoveItErrorCodes &error_code,
+                                          const kinematics::KinematicsQueryOptions &options) const
 {
   return searchPositionIK(ik_pose,
                           ik_seed_state,
@@ -553,13 +555,13 @@ bool comparator(const idx_double& l, const idx_double& r)
 { return l.second < r.second; }
 
 bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
-                                           const std::vector<double> &ik_seed_state,
-                                           double timeout,
-                                           std::vector<double> &solution,
-                                           const IKCallbackFn &solution_callback,
-                                           moveit_msgs::MoveItErrorCodes &error_code,
-                                           const std::vector<double> &consistency_limits,
-                                           const kinematics::KinematicsQueryOptions &options) const
+                                          const std::vector<double> &ik_seed_state,
+                                          double timeout,
+                                          std::vector<double> &solution,
+                                          const IKCallbackFn &solution_callback,
+                                          moveit_msgs::MoveItErrorCodes &error_code,
+                                          const std::vector<double> &consistency_limits,
+                                          const kinematics::KinematicsQueryOptions &options) const
 {
   ros::WallTime n1 = ros::WallTime::now();
   if(!active_) {
@@ -631,7 +633,7 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
     // Convert into query for analytic solver
     tf::poseMsgToKDL(ik_pose, kdl_ik_pose);
     kdl_ik_pose_ur_chain = pose_base.Inverse() * kdl_ik_pose * pose_tip.Inverse();
-    
+
     kdl_ik_pose_ur_chain.Make4x4((double*) homo_ik_pose);
 #if KDL_OLD_BUG_FIX
     // in older versions of KDL, setting this flag might be necessary
@@ -640,10 +642,10 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
     /////////////////////////////////////////////////////////////////////////////
 
     // Do the analytic IK
-    num_sols = inverse((double*) homo_ik_pose, (double*) q_ik_sols, 
+    num_sols = inverse((double*) homo_ik_pose, (double*) q_ik_sols,
                        jnt_pos_test(ur_joint_inds_start_+5));
-    
-    
+
+
     uint16_t num_valid_sols;
     std::vector< std::vector<double> > q_ik_valid_sols;
     for(uint16_t i=0; i<num_sols; i++)
@@ -651,11 +653,11 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
       bool valid = true;
       std::vector< double > valid_solution;
       valid_solution.assign(6,0.0);
-      
+
       for(uint16_t j=0; j<6; j++)
       {
         if((q_ik_sols[i][j] <= ik_chain_info_.limits[j].max_position) && (q_ik_sols[i][j] >= ik_chain_info_.limits[j].min_position))
-        { 
+        {
           valid_solution[j] = q_ik_sols[i][j];
           valid = true;
           continue;
@@ -678,14 +680,14 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
           break;
         }
       }
-      
+
       if(valid)
       {
         q_ik_valid_sols.push_back(valid_solution);
       }
     }
-     
-     
+
+
     // use weighted absolute deviations to determine the solution closest the seed state
     std::vector<idx_double> weighted_diffs;
     for(uint16_t i=0; i<q_ik_valid_sols.size(); i++) {
@@ -774,8 +776,8 @@ bool URKinematicsPlugin::searchPositionIK(const geometry_msgs::Pose &ik_pose,
 }
 
 bool URKinematicsPlugin::getPositionFK(const std::vector<std::string> &link_names,
-                                        const std::vector<double> &joint_angles,
-                                        std::vector<geometry_msgs::Pose> &poses) const
+                                       const std::vector<double> &joint_angles,
+                                       std::vector<geometry_msgs::Pose> &poses) const
 {
   ros::WallTime n1 = ros::WallTime::now();
   if(!active_)

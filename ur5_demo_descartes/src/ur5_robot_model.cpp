@@ -22,7 +22,7 @@ UR5RobotModel::~UR5RobotModel()
 }
 
 bool UR5RobotModel::initialize(const std::string &robot_description, const std::string& group_name,
-                          const std::string& world_frame,const std::string& tcp_frame)
+                               const std::string& world_frame,const std::string& tcp_frame)
 {
   check_collisions_ = true;
   if(!MoveitStateAdapter::initialize(robot_description,group_name,world_frame,tcp_frame))
@@ -32,24 +32,53 @@ bool UR5RobotModel::initialize(const std::string &robot_description, const std::
   }
 
 
-  if(!ur_kinematics::URKinematicsPlugin::initialize(robot_description, group_name, UR5_BASE_LINK,UR5_TIP_LINK, 0.001))
+  if(!ur_kinematics::URKinematicsPlugin::initialize(robot_description, group_name, UR5_BASE_LINK, UR5_TIP_LINK, 0.001))
   {
     ROS_ERROR_STREAM("URKinematicsPlugin from within UR5 robot model failed to initialize");
     return false;
   }
 
+  const std::string name_ = "ur5_robot_model";
+
   // initialize world transformations
+  ROS_INFO_STREAM_NAMED(name_, "getTipFrame(): " << getTipFrame());
+  ROS_INFO_STREAM_NAMED(name_, "tcp_frame: " << tcp_frame);
   if(tcp_frame != getTipFrame())
   {
+    std::cout << "setting: " << std::endl;
     tool_to_tip_ = descartes_core::Frame(robot_state_->getFrameTransform(tcp_frame).inverse()*
                                          robot_state_->getFrameTransform(getTipFrame()));
   }
-  if(world_frame != getBaseFrame())
+  else
+    tool_to_tip_ = descartes_core::Frame::Identity();
+
+  // Debug transform
   {
-    world_to_base_ = descartes_core::Frame(world_to_root_.frame * robot_state_->getFrameTransform(getBaseFrame()));
+    Eigen::Quaterniond q(tool_to_tip_.frame.rotation());
+    std::cout << "T.xyz = [" << tool_to_tip_.frame.translation().x() << ", " << tool_to_tip_.frame.translation().y() << ", "
+              << tool_to_tip_.frame.translation().z() << "], Q.xyzw = [" << q.x() << ", " << q.y() << ", " << q.z() << ", "
+              << q.w() << "]" << std::endl;
   }
 
-  ROS_WARN_STREAM("UR5 Descartes Robot Model initialized");
+  ROS_INFO_STREAM_NAMED(name_, "world_frame " << world_frame);
+  ROS_INFO_STREAM_NAMED(name_, "getBaseFrame() " << getBaseFrame());
+  if(world_frame != getBaseFrame())
+  {
+    std::cout << "setting: " << std::endl;
+    world_to_base_ = descartes_core::Frame(world_to_root_.frame * robot_state_->getFrameTransform(getBaseFrame()));
+  }
+  else
+    world_to_base_ = descartes_core::Frame::Identity();
+
+  // Debug transform
+  {
+    Eigen::Quaterniond q(world_to_base_.frame.rotation());
+    std::cout << "T.xyz = [" << world_to_base_.frame.translation().x() << ", " << world_to_base_.frame.translation().y() << ", "
+              << world_to_base_.frame.translation().z() << "], Q.xyzw = [" << q.x() << ", " << q.y() << ", " << q.z() << ", "
+              << q.w() << "]" << std::endl;
+  }
+
+  ROS_INFO_STREAM("UR5 Descartes Robot Model initialized");
 
   return true;
 }
@@ -61,22 +90,23 @@ bool UR5RobotModel::getAllIK(const Eigen::Affine3d &pose, std::vector<std::vecto
 
   bool rtn = false;
   KDL::Frame frame;
-  Eigen::Affine3d tool_pose = world_to_base_.frame_inv* pose* tool_to_tip_.frame;
+  Eigen::Affine3d tool_pose = world_to_base_.frame_inv * pose * tool_to_tip_.frame;
+  //Eigen::Affine3d tool_pose = pose;
   tf::transformEigenToKDL(tool_pose, frame);
   joint_poses.clear();
 
   KDL::JntArray jnt_seed_state(dimension_);
-   for(int i=0; i<dimension_; i++)
-     jnt_seed_state(i) = 0.0f;
+  for(int i=0; i<dimension_; i++)
+    jnt_seed_state(i) = 0.0f;
 
 
-   KDL::ChainFkSolverPos_recursive fk_solver_base(kdl_base_chain_);
-   KDL::ChainFkSolverPos_recursive fk_solver_tip(kdl_tip_chain_);
+  KDL::ChainFkSolverPos_recursive fk_solver_base(kdl_base_chain_);
+  KDL::ChainFkSolverPos_recursive fk_solver_tip(kdl_tip_chain_);
 
-   KDL::JntArray jnt_pos_test(jnt_seed_state);
-   KDL::JntArray jnt_pos_base(ur_joint_inds_start_);
-   KDL::JntArray jnt_pos_tip(dimension_ - 6 - ur_joint_inds_start_);
-   KDL::Frame pose_base, pose_tip;
+  KDL::JntArray jnt_pos_test(jnt_seed_state);
+  KDL::JntArray jnt_pos_base(ur_joint_inds_start_);
+  KDL::JntArray jnt_pos_tip(dimension_ - 6 - ur_joint_inds_start_);
+  KDL::Frame pose_base, pose_tip;
 
   double ik_pose[4][4];
   double q_ik_sols[8][6]; // maximum of 8 IK solutions
@@ -89,46 +119,50 @@ bool UR5RobotModel::getAllIK(const Eigen::Affine3d &pose, std::vector<std::vecto
   uint16_t num_valid_sols;
   for(uint16_t i=0; i<num_sols; i++)
   {
-   bool valid = true;
-   std::vector< double > valid_solution;
-   valid_solution.assign(6,0.0);
+    bool valid = true;
+    std::vector< double > valid_solution;
+    valid_solution.assign(6,0.0);
 
-   for(uint16_t j=0; j<6; j++)
-   {
-     if((q_ik_sols[i][j] <= ik_chain_info_.limits[j].max_position) && (q_ik_sols[i][j] >= ik_chain_info_.limits[j].min_position))
-     {
-       valid_solution[j] = q_ik_sols[i][j];
-       valid = true;
-       continue;
-     }
-     else if ((q_ik_sols[i][j] > ik_chain_info_.limits[j].max_position) && (q_ik_sols[i][j]-2*M_PI > ik_chain_info_.limits[j].min_position))
-     {
-       valid_solution[j] = q_ik_sols[i][j]-2*M_PI;
-       valid = true;
-       continue;
-     }
-     else if ((q_ik_sols[i][j] < ik_chain_info_.limits[j].min_position) && (q_ik_sols[i][j]+2*M_PI < ik_chain_info_.limits[j].max_position))
-     {
-       valid_solution[j] = q_ik_sols[i][j]+2*M_PI;
-       valid = true;
-       continue;
-     }
-     else
-     {
-       valid = false;
-       break;
-     }
-   }
+    for(uint16_t j=0; j<6; j++)
+    {
+      if((q_ik_sols[i][j] <= ik_chain_info_.limits[j].max_position) && (q_ik_sols[i][j] >= ik_chain_info_.limits[j].min_position))
+      {
+        valid_solution[j] = q_ik_sols[i][j];
+        valid = true;
+        continue;
+      }
+      else if ((q_ik_sols[i][j] > ik_chain_info_.limits[j].max_position) && (q_ik_sols[i][j]-2*M_PI > ik_chain_info_.limits[j].min_position))
+      {
+        valid_solution[j] = q_ik_sols[i][j]-2*M_PI;
+        valid = true;
+        continue;
+      }
+      else if ((q_ik_sols[i][j] < ik_chain_info_.limits[j].min_position) && (q_ik_sols[i][j]+2*M_PI < ik_chain_info_.limits[j].max_position))
+      {
+        valid_solution[j] = q_ik_sols[i][j]+2*M_PI;
+        valid = true;
+        continue;
+      }
+      else
+      {
+        // std::cout << "over writting invalid solution " << std::endl;
+        // valid = true;
+        // continue;
 
-   if(valid && isValid(valid_solution))
-   {
-     joint_poses.push_back(valid_solution);
-   }
+        valid = false;
+        break;
+      }
+    }
+
+    if(valid && isValid(valid_solution))
+    {
+      joint_poses.push_back(valid_solution);
+    }
   }
 
   if(joint_poses.empty())
   {
-    ROS_WARN_STREAM("GetAllIK has not solutions");
+    ROS_WARN_STREAM("GetAllIK has no solutions");
     rtn = false;
   }
   else
