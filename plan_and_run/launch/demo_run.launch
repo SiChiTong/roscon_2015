@@ -1,10 +1,21 @@
 <?xml version="1.0" ?>
 <launch>
+    <!-- These names are used to create joint trajectories. I created this parameter in the 'left' and 'right' namespace
+         for the robot simulator & ros industrial interfaces. -->
+    <rosparam param="controller_joint_names">
+      ['left_shoulder_pan_joint',
+      'left_shoulder_lift_joint',
+      'left_elbow_joint',
+      'left_wrist_1_joint',
+      'left_wrist_2_joint',
+      'left_wrist_3_joint']
+    </rosparam>
+    
   <node name="plan_and_run_node" type="plan_and_run_node" pkg="plan_and_run" output="screen">
-    <param name="group_name" value="manipulator"/>
-    <param name="tip_link" value="tool"/>
-    <param name="base_link" value="base_link"/>
-    <param name="world_frame" value="world"/>
+    <param name="group_name" value="left_arm"/>
+    <param name="tip_link" value="left_gripper_target"/>
+    <param name="world_frame" value="base_link"/>
+    <param name="base_link" value="base_link"/> <!-- I'm not sure what this parameter is here for, 'world_frame' seems to be the real base_link -->
     <param name="trajectory/time_delay" value="0.1"/>
     <param name="trajectory/foci_distance" value="0.07"/>
     <param name="trajectory/radius" value="0.097"/>
@@ -12,6 +23,9 @@
     <param name="trajectory/num_lemniscates" value="4"/>
     <rosparam param="trajectory/center">[0.5, 0.1, 0.195]</rosparam>
     <rosparam param="trajectory/seed_pose">[0.0, -1.7, 1.7 , 0.0, 1.5, 0.0]</rosparam>
-     <param name="visualization/min_point_distance" value="0.02"/>
+    <param name="visualization/min_point_distance" value="0.02"/>
+
+
+
   </node>
 </launch>

@@ -18,7 +18,7 @@ void DemoApplication::initDescartes()
   //ROS_ERROR_STREAM("Task '"<<__FUNCTION__ <<"' is incomplete. Exiting"); exit(-1);
 
   // Instantiating a robot model
-  robot_model_ptr_.reset(new ur5_demo_descartes::UR5RobotModel());
+  robot_model_ptr_.reset(new ur5_demo_descartes::UR5RobotModel("left_"));
 
   /*  Fill Code:
    * Goal:

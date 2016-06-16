@@ -20,6 +20,8 @@
 namespace ur5_demo_descartes
 {
 
+DESCARTES_CLASS_FORWARD(UR5RobotModel);
+
 const std::string UR5_BASE_LINK = "base_link";
 const std::string UR5_TIP_LINK = "ee_link";
 
